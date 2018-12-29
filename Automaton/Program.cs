@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Automaton.feature_ex_2;
 
 namespace Automaton
@@ -8,15 +9,16 @@ namespace Automaton
         static void Main(string[] args)
         {
             HelloSpeaker speak = new HelloSpeaker();
-            speak.SayHello(ELanguage.GER);
+            ////speak.SayHello(ELanguage.PL);
+            //Console.ReadKey();
 
-            var languages = Enum.GetValues(typeof(ELanguage));
+            ELanguage[] languages = (ELanguage[])Enum.GetValues(typeof(ELanguage));
 
-            foreach (var item in languages)
+            foreach (ELanguage lang in languages)
             {
-                Console.WriteLine(item.ToString());
-                Console.ReadKey(); 
+                speak.SayHello(lang);
             }
+                Console.ReadKey(); 
         }
     }
 }
