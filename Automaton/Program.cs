@@ -9,7 +9,14 @@ namespace Automaton
         {
             HelloSpeaker speak = new HelloSpeaker();
             speak.SayHello(ELanguage.GER);
-            Console.ReadKey(); 
+
+            var languages = Enum.GetValues(typeof(ELanguage));
+
+            foreach (var item in languages)
+            {
+                Console.WriteLine(item.ToString());
+                Console.ReadKey(); 
+            }
         }
     }
 }
