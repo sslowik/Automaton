@@ -1,6 +1,10 @@
 ﻿using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Text;
 using System.Linq;
 using Automaton.feature_ex_2;
+using Automaton.feature_ex_3;
 
 namespace Automaton
 {
@@ -10,15 +14,17 @@ namespace Automaton
         {
             HelloSpeaker speak = new HelloSpeaker();
             ////speak.SayHello(ELanguage.PL);
-            //Console.ReadKey();
-
+            
             ELanguage[] languages = (ELanguage[])Enum.GetValues(typeof(ELanguage));
 
             foreach (ELanguage lang in languages)
             {
                 speak.SayHello(lang);
             }
-                Console.ReadKey(); 
+
+            FileGenerator filon = new FileGenerator();
+            filon.WriteRandomFilePath();  
+            Console.ReadKey();
         }
     }
 }
