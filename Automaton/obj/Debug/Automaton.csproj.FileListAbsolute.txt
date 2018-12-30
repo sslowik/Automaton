@@ -8,7 +8,6 @@ D:\C\repo\Automaton\Automaton\obj\Debug\Automaton.pdb
 D:\C\Automaton\Automaton\bin\Debug\Automaton.exe.config
 D:\C\Automaton\Automaton\bin\Debug\Automaton.exe
 D:\C\Automaton\Automaton\bin\Debug\Automaton.pdb
-D:\C\Automaton\Automaton\obj\Debug\Automaton.csprojAssemblyReference.cache
 D:\C\Automaton\Automaton\obj\Debug\Automaton.csproj.CoreCompileInputs.cache
 D:\C\Automaton\Automaton\obj\Debug\Automaton.exe
 D:\C\Automaton\Automaton\obj\Debug\Automaton.pdb

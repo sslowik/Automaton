@@ -46,14 +46,14 @@ namespace Automaton
                 Console.WriteLine("File No " + (i + 1) + ": " + fileList[i]);
             }
 
-            var querry1 = fileList.Select(n => n).ToArray();
+            //var querry1 = fileList.Select(n => n).ToArray();
 
-            //usuwam pliki z rozszerzeniem .xml używając LINQ dla DirectoryInfo
+            //usuwam pliki z rozszerzeniem .xml
 
             DirectoryInfo di = new DirectoryInfo(filesPath);
             var files = di.GetFiles();
-            files.AsParallel().Where(f => (f.Extension == ".xml" || f.Extension == ".zip")).ForAll((f) => f.Delete());
-
+            files.AsParallel().Where(f => (f.Extension == ".xml" || f.Extension == ".zip")).ForAll(f => f.Delete());
+            
             Console.ReadKey(); 
         }
     }
