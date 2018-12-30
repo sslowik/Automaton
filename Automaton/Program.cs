@@ -52,7 +52,7 @@ namespace Automaton
 
             DirectoryInfo di = new DirectoryInfo(filesPath);
             var files = di.GetFiles();
-            files.AsParallel().Where(f => f.Extension == ".xml").ForAll((f) => f.Delete());
+            files.AsParallel().Where(f => (f.Extension == ".xml" || f.Extension == ".zip")).ForAll((f) => f.Delete());
 
             Console.ReadKey(); 
         }
