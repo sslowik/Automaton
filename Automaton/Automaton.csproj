@@ -53,6 +53,7 @@
     <Compile Include="feature-ex-2\HelloFactory.cs" />
     <Compile Include="feature-ex-2\HelloSpeaker.cs" />
     <Compile Include="feature-ex-2\ISayHello.cs" />
+    <Compile Include="feature-ex-3\FileGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
