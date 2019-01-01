@@ -57,13 +57,24 @@ namespace Automaton
 
             DirectoryInfo di = new DirectoryInfo(filesPath);
             var files = di.GetFiles();
-            files.AsParallel().Where(f => f.Extension == ".xml" ).ForAll(f => f.Delete());
+            files.AsParallel().Where(f => f.Extension == ".xml").ForAll(f => f.Delete());
 
             // zmień nazwę każdego pliku zip na: test_nr - gdzie nr to kolejna liczba naturalna
-            //var counter = 1; 
-            files.AsParallel().Where(f => f.Extension == ".zip").ForAll(f => f.MoveTo(string.Format("{0}test_nr_{1}", filesPath, f.Name)) );
 
-            Console.ReadKey(); 
+            var filesZip = files.AsParallel().Where(f => f.Extension == ".zip");
+
+            //używam foreach zmieniająca nazwę, nie umiem napisac lambdy z counterem :(
+
+            var counter = 1; 
+            foreach (var f in filesZip) 
+            {
+                File.Move(f.FullName, string.Format("{0}test_nr_{1}.zip", filesPath, counter));
+                counter++; 
+            }
+
+            //do każdego pliku txt wklej kolekcję losowych liczb z zakresu 1 - 100 oddzielonych spacją, skorzystaj z klasy Random
+
+           Console.ReadKey(); 
         }
     }
 }
