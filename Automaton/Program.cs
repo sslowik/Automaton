@@ -19,7 +19,7 @@ namespace Automaton
 
             HelloSpeaker speak = new HelloSpeaker();
             ////speak.SayHello(ELanguage.PL);
-            
+
             ELanguage[] languages = (ELanguage[])Enum.GetValues(typeof(ELanguage));
 
             foreach (var lang in languages)
@@ -27,6 +27,12 @@ namespace Automaton
                 speak.SayHello(lang);
             }
 
+            Console.WriteLine();
+
+            //to samo z lambdą:
+            
+            languages.AsParallel().ForAll(f => speak.SayHello(f)); 
+            
             // ex 3 - zabawa z plikami
             // generuję po 5 losowych plików z rozszerzeniem .txt, .zip, .xml korzystajać z utworzonej klasy FileGenerator, i zapisuję w podanej lokalizacji:  
 
@@ -36,7 +42,7 @@ namespace Automaton
 
             string filesPath = @"D:\Random\";
 
-            FileGenerator filon = new FileGenerator();
+            FileProcessor filon = new FileProcessor();
 
             for (var i = 0; i < 5; i++)
             {
@@ -66,17 +72,33 @@ namespace Automaton
 
             //używam foreach zmieniająca nazwę, nie udało mi się napisac poprawnej lambdy z counterem :(
 
-            var counter = 1; 
-            foreach (var f in filesZip)
-                try
+            //var counter = 1; 
+            //foreach (var f in filesZip)
+            //    try
+            //    {
+            //    File.Move(f.FullName, string.Format("{0}test_nr_{1}.zip", filesPath, counter));
+            //    counter++; 
+            //    }
+            //    catch
+            //    {
+            //        Console.WriteLine("File already exists");
+            //    }
+
+            // a może tak zatrybi lambdą: 
+
+            filesZip.AsParallel().ForAll(f =>
+            {
+                if (File.Exists(string.Format("{0}test_nr_{1}.zip", filesPath, Array.IndexOf(filesZip.ToArray(), f) + 1)))
                 {
-                File.Move(f.FullName, string.Format("{0}test_nr_{1}.zip", filesPath, counter));
-                counter++; 
+                    File.Delete(string.Format("{0}test_nr_{1}.zip", filesPath, Array.IndexOf(filesZip.ToArray(), f) + 1));
+                    File.Move(f.FullName, string.Format("{0}test_nr_{1}.zip", filesPath, Array.IndexOf(filesZip.ToArray(), f) + 1));
+                } else
+                { 
+                    File.Move(f.FullName, string.Format("{0}test_nr_{1}.zip", filesPath, Array.IndexOf(filesZip.ToArray(), f) + 1));
                 }
-                catch
-                {
-                    Console.WriteLine("File already exists");
-                }
+            }); 
+
+            //ano zatrybiło :P. Przy okazji dodałem if usuwający plik jeśli juz istnieje z taką nazwą 
 
             Console.WriteLine("\n wklejanie losowych liczb do pliku \n");
             
@@ -84,23 +106,15 @@ namespace Automaton
 
             var filesTxt = files.AsParallel().Where(f => f.Extension == ".txt");
 
-            Random rand = new Random();
-            StringBuilder sBuilder = new StringBuilder();
 
-            string[] sLiczbyLosowe = new string[rand.Next(2, 20)];
-
-            for (int i = 0; i < sLiczbyLosowe.Length; i++)
+            foreach (var file1 in filesTxt)
             {
-                sLiczbyLosowe[i] = rand.Next(1, 100).ToString(); 
+                FileProcessor.DopiszLosoweDoPliku(file1, 10, 1, 100); 
             }
 
-            //sLiczbyLosowe.AsParallel().ForAll(f => f.Replace(f, rand.Next(1, 100).ToString()));
-                                     
-            //CollectionToLine.ToLine(liczbyLosowe);
-
-            Console.WriteLine(string.Join(",", sLiczbyLosowe));
-
-            Console.ReadKey(); 
+            Console.ReadKey();
         }
+
+        
     }
 }
