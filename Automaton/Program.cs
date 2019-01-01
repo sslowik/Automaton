@@ -28,13 +28,16 @@ namespace Automaton
             }
 
             // ex 3 - zabawa z plikami
-            // generuję po 5 losowych plików z rozszerzeniem .txt, .zip, .xml korzystajać z utworzonej klasy FileGenerator:  
+            // generuję po 5 losowych plików z rozszerzeniem .txt, .zip, .xml korzystajać z utworzonej klasy FileGenerator, i zapisuję w podanej lokalizacji:  
 
             Console.WriteLine("\n ex 3 - zabawa z plikami \n");
+
+            //lokalizacja do zapisu plików: 
 
             string filesPath = @"D:\Random\";
 
             FileGenerator filon = new FileGenerator();
+
             for (var i = 0; i < 5; i++)
             {
                 filon.WriteFile(filon.GenerateRandomFileName(filesPath, "txt"));
@@ -51,30 +54,53 @@ namespace Automaton
                 Console.WriteLine("File No " + (i + 1) + ": " + fileList[i]);
             }
 
-            //var querry1 = fileList.Select(n => n).ToArray();
-
-            //- usuń wszystkie pliki xml 
+            //- usuwam wszystkie pliki xml 
 
             DirectoryInfo di = new DirectoryInfo(filesPath);
             var files = di.GetFiles();
             files.AsParallel().Where(f => f.Extension == ".xml").ForAll(f => f.Delete());
 
-            // zmień nazwę każdego pliku zip na: test_nr - gdzie nr to kolejna liczba naturalna
+            // zmieniam nazwę każdego pliku zip na: test_nr - gdzie nr to kolejna liczba naturalna
 
             var filesZip = files.AsParallel().Where(f => f.Extension == ".zip");
 
-            //używam foreach zmieniająca nazwę, nie umiem napisac lambdy z counterem :(
+            //używam foreach zmieniająca nazwę, nie udało mi się napisac poprawnej lambdy z counterem :(
 
             var counter = 1; 
-            foreach (var f in filesZip) 
-            {
+            foreach (var f in filesZip)
+                try
+                {
                 File.Move(f.FullName, string.Format("{0}test_nr_{1}.zip", filesPath, counter));
                 counter++; 
-            }
+                }
+                catch
+                {
+                    Console.WriteLine("File already exists");
+                }
 
+            Console.WriteLine("\n wklejanie losowych liczb do pliku \n");
+            
             //do każdego pliku txt wklej kolekcję losowych liczb z zakresu 1 - 100 oddzielonych spacją, skorzystaj z klasy Random
 
-           Console.ReadKey(); 
+            var filesTxt = files.AsParallel().Where(f => f.Extension == ".txt");
+
+            Random rand = new Random();
+            StringBuilder sBuilder = new StringBuilder();
+
+            string[] sLiczbyLosowe = new string[rand.Next(2, 20)];
+
+            for (int i = 0; i < sLiczbyLosowe.Length; i++)
+            {
+                sLiczbyLosowe[i] = rand.Next(1, 100).ToString(); 
+            }
+
+            //sLiczbyLosowe.AsParallel().ForAll(f => f.Replace(f, rand.Next(1, 100).ToString()));
+                                     
+            //CollectionToLine.ToLine(liczbyLosowe);
+
+            Console.WriteLine(string.Join(",", sLiczbyLosowe));
+
+            Console.ReadKey(); 
         }
     }
 }
