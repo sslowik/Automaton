@@ -13,12 +13,11 @@ namespace Automaton
         static void Main(string[] args)
         {
 
-            // ex 2 - zabawa z interfejsami
+            // ex 2 - playing with Interfaces
 
-            Console.WriteLine("ex 2 - zabawa z interfejsami \n");
+            Console.WriteLine("ex 2 - playing with Interfaces \n");
 
             HelloSpeaker speak = new HelloSpeaker();
-            ////speak.SayHello(ELanguage.PL);
 
             ELanguage[] languages = (ELanguage[])Enum.GetValues(typeof(ELanguage));
 
@@ -29,16 +28,16 @@ namespace Automaton
 
             Console.WriteLine();
 
-            //to samo z lambdą:
+            //introduce using lambda function
             
-            languages.AsParallel().ForAll(f => speak.SayHello(f)); 
-            
-            // ex 3 - zabawa z plikami
-            // generuję po 5 losowych plików z rozszerzeniem .txt, .zip, .xml korzystajać z utworzonej klasy FileGenerator, i zapisuję w podanej lokalizacji:  
+            languages.AsParallel().ForAll(f => speak.SayHello(f));
 
-            Console.WriteLine("\n ex 3 - zabawa z plikami \n");
+            // Ex 3. - Playing with files
 
-            //lokalizacja do zapisu plików: 
+            Console.WriteLine("\n Ex. 3. - Playing with files \n");
+
+            // 3.1. generate random files with different extensions .txt .zip. xml using FileGenerator class
+            //specify folder for output files: 
 
             string filesPath = @"D:\Random\";
 
@@ -60,31 +59,15 @@ namespace Automaton
                 Console.WriteLine("File No " + (i + 1) + ": " + fileList[i]);
             }
 
-            //- usuwam wszystkie pliki xml 
+            // remove .xml files 
 
             DirectoryInfo di = new DirectoryInfo(filesPath);
             var files = di.GetFiles();
             files.AsParallel().Where(f => f.Extension == ".xml").ForAll(f => f.Delete());
 
-            // zmieniam nazwę każdego pliku zip na: test_nr - gdzie nr to kolejna liczba naturalna
+            // change names of txt file to 'test_nr_x' where x are next int
 
             var filesZip = files.AsParallel().Where(f => f.Extension == ".zip");
-
-            //używam foreach zmieniająca nazwę, nie udało mi się napisac poprawnej lambdy z counterem :(
-
-            //var counter = 1; 
-            //foreach (var f in filesZip)
-            //    try
-            //    {
-            //    File.Move(f.FullName, string.Format("{0}test_nr_{1}.zip", filesPath, counter));
-            //    counter++; 
-            //    }
-            //    catch
-            //    {
-            //        Console.WriteLine("File already exists");
-            //    }
-
-            // a może tak zatrybi lambdą: 
 
             filesZip.AsParallel().ForAll(f =>
             {
@@ -96,21 +79,18 @@ namespace Automaton
                 { 
                     File.Move(f.FullName, string.Format("{0}test_nr_{1}.zip", filesPath, Array.IndexOf(filesZip.ToArray(), f) + 1));
                 }
-            }); 
+            });
 
-            //ano zatrybiło :P. Przy okazji dodałem if usuwający plik jeśli juz istnieje z taką nazwą 
-
-            Console.WriteLine("\n wklejanie losowych liczb do pliku \n");
-            
-            //do każdego pliku txt wklej kolekcję losowych liczb z zakresu 1 - 100 oddzielonych spacją, skorzystaj z klasy Random
+            Console.WriteLine("\n Inserting to .txt files random integers separated with space \n");
 
             var filesTxt = files.AsParallel().Where(f => f.Extension == ".txt");
 
-
             foreach (var file1 in filesTxt)
             {
-                FileProcessor.DopiszLosoweDoPliku(file1, 10, 1, 100); 
+                FileProcessor.WriteRandomsToFile(file1, 10, 1, 100); 
             }
+
+            // Ex. 4. Playing with processes
 
             Console.ReadKey();
         }
