@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Linq;
 using Automaton.feature_ex_2;
@@ -41,15 +42,15 @@ namespace Automaton
 
             string filesPath = @"D:\Random\";
 
-            FileProcessor filon = new FileProcessor();
+            FileProcessor fileProcessor = new FileProcessor();
 
             for (var i = 0; i < 5; i++)
             {
-                filon.WriteFile(filon.GenerateRandomFileName(filesPath, "txt"));
+                fileProcessor.WriteFile(fileProcessor.GenerateRandomFileName(filesPath, "txt"));
 
-                filon.WriteFile(filon.GenerateRandomFileName(filesPath, "zip"));
+                fileProcessor.WriteFile(fileProcessor.GenerateRandomFileName(filesPath, "zip"));
 
-                filon.WriteFile(filon.GenerateRandomFileName(filesPath, "xml"));
+                fileProcessor.WriteFile(fileProcessor.GenerateRandomFileName(filesPath, "xml"));
             }
 
             var fileList = Directory.GetFiles(filesPath);
@@ -92,9 +93,65 @@ namespace Automaton
 
             // Ex. 4. Playing with processes
 
-            Console.ReadKey();
+            // 4.1. Process.Start("ipconfig", "/all");
+
+            Process process = new Process();
+            ProcessStartInfo processStartInfo = new ProcessStartInfo();
+            processStartInfo.FileName = "cmd.exe";
+            processStartInfo.Arguments = "/k ipconfig/all";
+            processStartInfo.UseShellExecute = false;
+            processStartInfo.RedirectStandardOutput = true;
+            processStartInfo.RedirectStandardError = true;
+
+            process.StartInfo = processStartInfo;
+
+            // 4.2. display the result in console
+
+            process.Start();
+            if (process != null) process.WaitForExit();
+
+            // 4.3. Parse output - display all IPv4 addresses 
+
+            var output = new StringBuilder();
+            process.OutputDataReceived += new DataReceivedEventHandler((sender, eventArgs) => output.AppendLine(
+                $"OUT: {eventArgs.Data}"));
+            process.ErrorDataReceived += new DataReceivedEventHandler((sender, eventArgs) => output.AppendLine(
+                $"ERR: {eventArgs.Data}"));
+
+
+            // 4.4. Start Windows Media Player with music file longer than 10 sec
+
+            // 4.5. Finish the process after 10 sec.
+
+            //
+
+            //Process process = new Process();
+
+            //// redirect the output
+            //process.StartInfo.RedirectStandardOutput = true;
+            //process.StartInfo.RedirectStandardError = true;
+            //process.StartInfo.FileName = "ipconfig";
+            //process.StartInfo.Arguments = "/all";
+
+
+            //process.Out
+            //// direct start
+            //process.StartInfo.UseShellExecute = false;
+
+            //process.S
+            //process.Start("ipconfig", "/all");
+            //// start our event pumps
+            //process.BeginOutputReadLine();
+            //process.BeginErrorReadLine();
+
+            //// until we are done
+            //process.WaitForExit();
+
+            //// do whatever you need with the content of sb.ToString();
+
+            //Console.ReadKey();
         }
 
-        
+
     }
 }
