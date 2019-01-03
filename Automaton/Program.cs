@@ -42,6 +42,13 @@ namespace Automaton
 
             string filesPath = @"D:\Random\";
 
+            //clearing temp directory
+            {
+                DirectoryInfo diDelete = new DirectoryInfo(filesPath);
+                var filesDelete = diDelete.GetFiles();
+                filesDelete.AsParallel().Where(f => f.Extension == ".zip").ForAll(f => f.Delete());
+            }
+
             FileProcessor fileProcessor = new FileProcessor();
 
             for (var i = 0; i < 5; i++)
@@ -95,28 +102,27 @@ namespace Automaton
 
             // 4.1. Process.Start("ipconfig", "/all");
 
-            Process process = new Process();
-            ProcessStartInfo processStartInfo = new ProcessStartInfo();
-            processStartInfo.FileName = "cmd.exe";
-            processStartInfo.Arguments = "/k ipconfig/all";
-            processStartInfo.UseShellExecute = false;
-            processStartInfo.RedirectStandardOutput = true;
-            processStartInfo.RedirectStandardError = true;
-
-            process.StartInfo = processStartInfo;
+            ProcessStartInfo startInfo = new ProcessStartInfo();
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/k ipconfig/all";
+            //startInfo.UseShellExecute = false;
+            //startInfo.RedirectStandardOutput = true;
+            //startInfo.RedirectStandardError = true;
 
             // 4.2. display the result in console
 
-            process.Start();
-            if (process != null) process.WaitForExit();
+            Process process = Process.Start(startInfo);
+            process.WaitForExit();
 
             // 4.3. Parse output - display all IPv4 addresses 
 
-            var output = new StringBuilder();
-            process.OutputDataReceived += new DataReceivedEventHandler((sender, eventArgs) => output.AppendLine(
-                $"OUT: {eventArgs.Data}"));
-            process.ErrorDataReceived += new DataReceivedEventHandler((sender, eventArgs) => output.AppendLine(
-                $"ERR: {eventArgs.Data}"));
+            //var output = new StringBuilder();
+            //process.OutputDataReceived += new DataReceivedEventHandler((sender, eventArgs) => output.AppendLine(
+            //    $"OUT: {eventArgs.Data}"));
+            //process.ErrorDataReceived += new DataReceivedEventHandler((sender, eventArgs) => output.AppendLine(
+            //    $"ERR: {eventArgs.Data}"));
+
+
 
 
             // 4.4. Start Windows Media Player with music file longer than 10 sec
