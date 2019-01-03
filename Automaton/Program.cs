@@ -6,6 +6,7 @@ using System.Text;
 using System.Linq;
 using Automaton.feature_ex_2;
 using Automaton.feature_ex_3;
+using Automaton.feature_ex_4;
 
 namespace Automaton
 {
@@ -89,7 +90,7 @@ namespace Automaton
                 }
             });
 
-            Console.WriteLine("\n Inserting to .txt files random integers separated with space \n");
+            //Console.WriteLine("\n Inserting to .txt files random integers separated with space \n");
 
             var filesTxt = files.AsParallel().Where(f => f.Extension == ".txt");
 
@@ -102,61 +103,47 @@ namespace Automaton
 
             // 4.1. Process.Start("ipconfig", "/all");
 
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = "/k ipconfig/all";
-            //startInfo.UseShellExecute = false;
-            //startInfo.RedirectStandardOutput = true;
-            //startInfo.RedirectStandardError = true;
+            var startInfo = new ProcessStartInfo();
+            startInfo.FileName = "ipconfig.exe";
+            startInfo.Arguments = null;
 
-            // 4.2. display the result in console
+            var thisProcessOutput = ProcessOutputGenerator.ProcessToStringBuilder(startInfo);
 
-            Process process = Process.Start(startInfo);
-            process.WaitForExit();
-
-            // 4.3. Parse output - display all IPv4 addresses 
-
-            //var output = new StringBuilder();
-            //process.OutputDataReceived += new DataReceivedEventHandler((sender, eventArgs) => output.AppendLine(
-            //    $"OUT: {eventArgs.Data}"));
-            //process.ErrorDataReceived += new DataReceivedEventHandler((sender, eventArgs) => output.AppendLine(
-            //    $"ERR: {eventArgs.Data}"));
-
-
-
-
-            // 4.4. Start Windows Media Player with music file longer than 10 sec
-
-            // 4.5. Finish the process after 10 sec.
-
-            //
-
-            //Process process = new Process();
-
-            //// redirect the output
-            //process.StartInfo.RedirectStandardOutput = true;
-            //process.StartInfo.RedirectStandardError = true;
-            //process.StartInfo.FileName = "ipconfig";
-            //process.StartInfo.Arguments = "/all";
-
-
-            //process.Out
-            //// direct start
-            //process.StartInfo.UseShellExecute = false;
-
-            //process.S
-            //process.Start("ipconfig", "/all");
-            //// start our event pumps
-            //process.BeginOutputReadLine();
-            //process.BeginErrorReadLine();
-
-            //// until we are done
-            //process.WaitForExit();
-
-            //// do whatever you need with the content of sb.ToString();
-
-            //Console.ReadKey();
+            Console.WriteLine(thisProcessOutput.ToString());
+            Console.ReadKey();
         }
+        //process.WaitForExit();
+
+        // 4.4. Start Windows Media Player with music file longer than 10 sec
+
+        // 4.5. Finish the process after 10 sec.
+
+        //
+
+        //Process process = new Process();
+
+        //// redirect the output
+        //process.StartInfo.RedirectStandardOutput = true;
+        //process.StartInfo.RedirectStandardError = true;
+        //process.StartInfo.FileName = "ipconfig";
+        //process.StartInfo.Arguments = "/all";
+
+
+        //process.Out
+        //// direct start
+        //process.StartInfo.UseShellExecute = false;
+
+        //process.S
+        //process.Start("ipconfig", "/all");
+        //// start our event pumps
+        //process.BeginOutputReadLine();
+        //process.BeginErrorReadLine();
+
+        //// until we are done
+        //process.WaitForExit();
+
+        //// do whatever you need with the content of sb.ToString();
+
 
 
     }

@@ -56,14 +56,13 @@
     <Compile Include="feature-ex-2\ISayHello.cs" />
     <Compile Include="feature-ex-3\CollectionToLine.cs" />
     <Compile Include="feature-ex-3\FileProcessor.cs" />
+    <Compile Include="feature-ex-4\ProcessOutputGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="feature-ex-4\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
