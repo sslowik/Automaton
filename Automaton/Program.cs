@@ -1,10 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Linq;
 using Automaton.feature_ex_2;
 using Automaton.feature_ex_3;
+using Automaton.feature_ex_4;
 
 namespace Automaton
 {
@@ -41,15 +43,22 @@ namespace Automaton
 
             string filesPath = @"D:\Random\";
 
-            FileProcessor filon = new FileProcessor();
+            //clearing temp directory
+            {
+                DirectoryInfo diDelete = new DirectoryInfo(filesPath);
+                var filesDelete = diDelete.GetFiles();
+                filesDelete.AsParallel().Where(f => f.Extension == ".zip").ForAll(f => f.Delete());
+            }
+
+            FileProcessor fileProcessor = new FileProcessor();
 
             for (var i = 0; i < 5; i++)
             {
-                filon.WriteFile(filon.GenerateRandomFileName(filesPath, "txt"));
+                fileProcessor.WriteFile(fileProcessor.GenerateRandomFileName(filesPath, "txt"));
 
-                filon.WriteFile(filon.GenerateRandomFileName(filesPath, "zip"));
+                fileProcessor.WriteFile(fileProcessor.GenerateRandomFileName(filesPath, "zip"));
 
-                filon.WriteFile(filon.GenerateRandomFileName(filesPath, "xml"));
+                fileProcessor.WriteFile(fileProcessor.GenerateRandomFileName(filesPath, "xml"));
             }
 
             var fileList = Directory.GetFiles(filesPath);
@@ -81,7 +90,7 @@ namespace Automaton
                 }
             });
 
-            Console.WriteLine("\n Inserting to .txt files random integers separated with space \n");
+            //Console.WriteLine("\n Inserting to .txt files random integers separated with space \n");
 
             var filesTxt = files.AsParallel().Where(f => f.Extension == ".txt");
 
@@ -92,9 +101,50 @@ namespace Automaton
 
             // Ex. 4. Playing with processes
 
+            // 4.1. Process.Start("ipconfig", "/all");
+
+            var startInfo = new ProcessStartInfo();
+            startInfo.FileName = "ipconfig.exe";
+            startInfo.Arguments = null;
+
+            var thisProcessOutput = ProcessOutputGenerator.ProcessToStringBuilder(startInfo);
+
+            Console.WriteLine(thisProcessOutput.ToString());
             Console.ReadKey();
         }
+        //process.WaitForExit();
 
-        
+        // 4.4. Start Windows Media Player with music file longer than 10 sec
+
+        // 4.5. Finish the process after 10 sec.
+
+        //
+
+        //Process process = new Process();
+
+        //// redirect the output
+        //process.StartInfo.RedirectStandardOutput = true;
+        //process.StartInfo.RedirectStandardError = true;
+        //process.StartInfo.FileName = "ipconfig";
+        //process.StartInfo.Arguments = "/all";
+
+
+        //process.Out
+        //// direct start
+        //process.StartInfo.UseShellExecute = false;
+
+        //process.S
+        //process.Start("ipconfig", "/all");
+        //// start our event pumps
+        //process.BeginOutputReadLine();
+        //process.BeginErrorReadLine();
+
+        //// until we are done
+        //process.WaitForExit();
+
+        //// do whatever you need with the content of sb.ToString();
+
+
+
     }
 }
