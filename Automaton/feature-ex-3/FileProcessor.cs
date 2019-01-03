@@ -27,10 +27,6 @@ namespace Automaton.feature_ex_3
                 using (FileStream fs = File.Create(fileName))
                 {
                     fs.WriteByte(95);
-                    //for (byte i = 0; i < 100; i++)
-                    //{
-                    //    fs.WriteByte(i);
-                    //}
                 }
             }
             else
@@ -40,68 +36,37 @@ namespace Automaton.feature_ex_3
             }
         }
 
-
         public static string GenerateFileName(string extension = "")
         {
             return string.Concat(Path.GetRandomFileName().Replace(".", ""),
                 (!string.IsNullOrEmpty(extension)) ? (extension.StartsWith(".") ? extension : string.Concat(".", extension)) : "");
         }
 
-        public static void DopiszDoPliku(FileInfo gdzieZapisac, string coZapisac)
+        public static void DopiszDoPliku(FileInfo whereWrite, string whatWrite)
         {
-            var plik = new FileStream(gdzieZapisac.FullName, FileMode.Open, FileAccess.Write);
-            var zapisuj = new StreamWriter(plik);
-            zapisuj.Write(coZapisac);
-            zapisuj.Close();
-            plik.Close();
+            var fileStream = new FileStream(whereWrite.FullName, FileMode.Open, FileAccess.Write);
+            var streamWriter = new StreamWriter(fileStream);
+            streamWriter.Write(whatWrite);
+            streamWriter.Close();
+            fileStream.Close();
         }
 
-        public static void DopiszLosoweDoPliku(FileInfo gdzieZapisac, int ileLiczb, int minLiczba, int maxLiczba)
+        public static void WriteRandomsToFile(FileInfo whereWrite, int howManyIntegers, int minInteger, int maxInteger)
         {
-            Random randek = new Random();
+            Random random = new Random();
 
-            string[] sLiczbyLosowe = new string[ileLiczb];
+            string[] sRandomIntegers = new string[howManyIntegers];
 
-            for (int i = 0; i < ileLiczb; i++)
+            for (int i = 0; i < howManyIntegers; i++)
             {
-                sLiczbyLosowe[i] = randek.Next(minLiczba, maxLiczba).ToString();
+                sRandomIntegers[i] = random.Next(minInteger, maxInteger).ToString();
             }
 
-            var plik = new FileStream(gdzieZapisac.FullName, FileMode.Append, FileAccess.Write);
-            var zapisuj = new StreamWriter(plik);
-            zapisuj.WriteLine(string.Join(",", sLiczbyLosowe));
-            zapisuj.Close();
-            plik.Close();
+            var fileStream = new FileStream(whereWrite.FullName, FileMode.Append, FileAccess.Write);
+            var streamWriter = new StreamWriter(fileStream);
+            streamWriter.WriteLine(string.Join(",", sRandomIntegers));
+            streamWriter.Close();
+            fileStream.Close();
         }
-
-
-
-        ////public static void DopiszDoPliku(FileInfo gdzieZapisac, string coZapisac)
-        ////{
-
-        ////    var plik = new FileStream(Path.GetFullPath(gdzieZapisac.ToString()), FileMode.Open, FileAccess.Write);
-        ////    var zapisuj = new StreamWriter(plik);
-        ////    // zapisuj.Write(tekst);
-        ////    zapisuj.Write(coZapisac);
-        ////    zapisuj.Close();
-        ////    plik.Close();
-        ////}
-
-
-        //        for (var i = 0; i< 5; i++)
-        //            {
-
-        //                using (FileStream fs = File.Create(filePath))
-        //                {
-        //                    FileGenerator.(fs, "Some text");
-        //                }
-
-        //            }
-
-        //        private static void AddText(FileStream fs, string value)
-        //        {
-        //            byte[] info = new UTF8Encoding(true).GetBytes(value);
-        //            fs.Write(info, 0, info.Length);
-        //        }
     }
 }
