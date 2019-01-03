@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Text.RegularExpressions;
 using Automaton.feature_ex_2;
 using Automaton.feature_ex_3;
 using Automaton.feature_ex_4;
@@ -21,7 +23,7 @@ namespace Automaton
 
             HelloSpeaker speak = new HelloSpeaker();
 
-            ELanguage[] languages = (ELanguage[])Enum.GetValues(typeof(ELanguage));
+            ELanguage[] languages = (ELanguage[]) Enum.GetValues(typeof(ELanguage));
 
             foreach (var lang in languages)
             {
@@ -31,7 +33,7 @@ namespace Automaton
             Console.WriteLine();
 
             //introduce using lambda function
-            
+
             languages.AsParallel().ForAll(f => speak.SayHello(f));
 
             // Ex 3. - Playing with files
@@ -80,13 +82,18 @@ namespace Automaton
 
             filesZip.AsParallel().ForAll(f =>
             {
-                if (File.Exists(string.Format("{0}test_nr_{1}.zip", filesPath, Array.IndexOf(filesZip.ToArray(), f) + 1)))
+                if (File.Exists(
+                    string.Format("{0}test_nr_{1}.zip", filesPath, Array.IndexOf(filesZip.ToArray(), f) + 1)))
                 {
-                    File.Delete(string.Format("{0}test_nr_{1}.zip", filesPath, Array.IndexOf(filesZip.ToArray(), f) + 1));
-                    File.Move(f.FullName, string.Format("{0}test_nr_{1}.zip", filesPath, Array.IndexOf(filesZip.ToArray(), f) + 1));
-                } else
-                { 
-                    File.Move(f.FullName, string.Format("{0}test_nr_{1}.zip", filesPath, Array.IndexOf(filesZip.ToArray(), f) + 1));
+                    File.Delete(
+                        string.Format("{0}test_nr_{1}.zip", filesPath, Array.IndexOf(filesZip.ToArray(), f) + 1));
+                    File.Move(f.FullName,
+                        string.Format("{0}test_nr_{1}.zip", filesPath, Array.IndexOf(filesZip.ToArray(), f) + 1));
+                }
+                else
+                {
+                    File.Move(f.FullName,
+                        string.Format("{0}test_nr_{1}.zip", filesPath, Array.IndexOf(filesZip.ToArray(), f) + 1));
                 }
             });
 
@@ -96,10 +103,14 @@ namespace Automaton
 
             foreach (var file1 in filesTxt)
             {
-                FileProcessor.WriteRandomsToFile(file1, 10, 1, 100); 
+                FileProcessor.WriteRandomsToFile(file1, 10, 1, 100);
             }
 
+
+
             // Ex. 4. Playing with processes
+
+            Console.WriteLine("/n Ex. 4.Playing with processes /n");
 
             // 4.1. Process.Start("ipconfig", "/all");
 
@@ -109,42 +120,46 @@ namespace Automaton
 
             var thisProcessOutput = ProcessOutputGenerator.ProcessToStringBuilder(startInfo);
 
-            Console.WriteLine(thisProcessOutput.ToString());
+            Console.WriteLine(thisProcessOutput);
+            Console.ReadKey();
+
+            //4.3. parse output to show IPv4
+
+            string patternIP = @"\d\d?\d?\.\d\d?\d?\.\d\d?\d?\.\d\d?\d?";
+            string patternIPv4 = @"IPv4 Address(.*)\d\d?\d?\.\d\d?\d?\.\d\d?\d?\.\d\d?\d?";
+
+            Regex regEx = new Regex(patternIP);
+            Match matchIP = regEx.Match(thisProcessOutput);
+
+            while (matchIP.Success)
+            {
+                Console.WriteLine("IP Address found at {0} with " +
+                                  "value of {1}",
+                    matchIP.Index,
+                    matchIP.Value);
+
+                matchIP = matchIP.NextMatch();
+            }
+
+            Console.WriteLine();
+
+            Regex regExIPv4 = new Regex(patternIPv4);
+            Match matchIPv4 = regExIPv4.Match(thisProcessOutput);
+
+            while (matchIPv4.Success)
+            {
+                Console.WriteLine("IPv4 Address found at {0} with " +
+                                  "value of {1}",
+                    matchIPv4.Index,
+                    matchIPv4.Value);
+
+                matchIPv4 = matchIPv4.NextMatch();
+            }
+            
             Console.ReadKey();
         }
-        //process.WaitForExit();
-
         // 4.4. Start Windows Media Player with music file longer than 10 sec
 
         // 4.5. Finish the process after 10 sec.
-
-        //
-
-        //Process process = new Process();
-
-        //// redirect the output
-        //process.StartInfo.RedirectStandardOutput = true;
-        //process.StartInfo.RedirectStandardError = true;
-        //process.StartInfo.FileName = "ipconfig";
-        //process.StartInfo.Arguments = "/all";
-
-
-        //process.Out
-        //// direct start
-        //process.StartInfo.UseShellExecute = false;
-
-        //process.S
-        //process.Start("ipconfig", "/all");
-        //// start our event pumps
-        //process.BeginOutputReadLine();
-        //process.BeginErrorReadLine();
-
-        //// until we are done
-        //process.WaitForExit();
-
-        //// do whatever you need with the content of sb.ToString();
-
-
-
     }
 }
