@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Linq;
+using System.Media;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -117,7 +118,7 @@ namespace Automaton
 
             var startInfo = new ProcessStartInfo();
             startInfo.FileName = "ipconfig.exe";
-            startInfo.Arguments = null;
+            startInfo.Arguments = "/all";
 
             var thisProcessOutput = ProcessOutputGenerator.ProcessToStringBuilder(startInfo);
 
@@ -165,16 +166,46 @@ namespace Automaton
 
             Console.WriteLine("\n List of found IP addresses: \n");
 
-            matchedIP.ForEach(s => Console.WriteLine("IP No. " + (List.IndexOf(s) + 1) + " " + s));
+            matchedIP.ForEach(s => Console.WriteLine("IP No. " + (matchedIP.IndexOf(s) + 1) + ": " + s));
 
             Console.WriteLine("\n List of found IPv4 addresses: \n");
 
-            matchedIPv4.ForEach(s => Console.WriteLine("IPv4 No. " + (s.IndexOf(s) + 1) + " " + s ));
+            matchedIPv4.ForEach((s) => Console.WriteLine("IPv4 No. " + (matchedIPv4.IndexOf(s) + 1) + ": " + s ));
 
             Console.ReadKey();
-        }
-        // 4.4. Start Windows Media Player with music file longer than 10 sec
 
-        // 4.5. Finish the process after 10 sec.
+            // 4.4. Start Windows Media Player with music file longer than 10 sec
+            Console.WriteLine("// 4.4. Start Windows Media Player with music file longer than 10 sec");
+
+            //Process.Start("wmplayer.exe", "\"D:\\Nuta\\pink-floyd-shine-on-you.mp3\"");
+
+            Process PlayMusic(string playerName, string playFile) 
+            {
+                Process player = new Process();
+                player.StartInfo.FileName = playerName;
+                player.StartInfo.Arguments = playFile;
+                player.Start();
+
+                return player;
+            }
+
+            //PlayMusic("wmplayer.exe", @"D:\Nuta\pink-floyd-shine-on-you.mp3");
+
+            // 4.5. Finish the process after 10 sec.
+
+            Process PlayAndStopMusic(string playerName, string playFile, int closeInSeconds)
+            {
+                Process player = new Process();
+                player.StartInfo.FileName = playerName;
+                player.StartInfo.Arguments = playFile;
+                player.StartInfo.WindowStyle = ProcessWindowStyle.Maximized; 
+                player.Start();
+                var stopPlayback = player.WaitForExit(closeInSeconds * 1000);
+                if (stopPlayback.Equals(false)) player.CloseMainWindow();
+                return player;
+            }
+
+            PlayAndStopMusic("wmplayer.exe", @"D:\Nuta\pink-floyd-shine-on-you.mp3", 10);
+        }
     }
 }
