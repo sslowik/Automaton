@@ -219,12 +219,31 @@ namespace Automaton
             Console.WriteLine("Device name : " + Environment.MachineName.ToString());
             Console.WriteLine("User Name: " + Environment.UserName.ToString());
             Console.WriteLine("64bit OS: " + Environment.Is64BitOperatingSystem.ToString());
-            Console.ReadKey(); 
+            Console.ReadKey();
 
             //5.3.Napisz metody rozszerzające klasę string(extension method):
+
+            var myString = "a   b\tc\td e   \vf";
+            
             //    - metoda która usuwa spacje ze stringa
-            //    - metoda, która zwraca true lub false jeżeli string jest nullem albo jest pusty
+
+            Console.WriteLine("\n" + myString);
+            Console.WriteLine(ExtendThis.RemoveWhiteSpaces(myString));
+
             //    - metoda, która zamienia taby na spacje
+            
+            Console.WriteLine("\n" + myString);
+            Console.WriteLine(ExtendThis.ReplaceTabsWithWhitespaces(myString));
+
+            //    - metoda, która zwraca true lub false jeżeli string jest nullem albo jest pusty
+
+            myString = null;
+
+            Console.WriteLine();
+            Console.WriteLine(ExtendThis.StringEmpty(myString));
+            
+            Console.ReadKey();
+
             //5.4.Sprawdź co oferuje Action i Func w C#, napisz ktrótką metodę, która przyjmuje inną metodę jako parametr, skorzystaj z wyrażeń lambda.
         }
     }
