@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Automaton.feature_ex_2;
 using Automaton.feature_ex_3;
@@ -130,13 +131,16 @@ namespace Automaton
 
             Regex regEx = new Regex(patternIP);
             Match matchIP = regEx.Match(thisProcessOutput);
+            List<string> matchedIP = new List<string>();
 
             while (matchIP.Success)
             {
                 Console.WriteLine("IP Address found at {0} with " +
-                                  "value of {1}",
+                                  "value: {1}",
                     matchIP.Index,
                     matchIP.Value);
+
+                matchedIP.Add(matchIP.Value.ToString());
 
                 matchIP = matchIP.NextMatch();
             }
@@ -145,17 +149,28 @@ namespace Automaton
 
             Regex regExIPv4 = new Regex(patternIPv4);
             Match matchIPv4 = regExIPv4.Match(thisProcessOutput);
-
+            List<string> matchedIPv4 = new List<string>();
+            
             while (matchIPv4.Success)
             {
                 Console.WriteLine("IPv4 Address found at {0} with " +
-                                  "value of {1}",
+                                  "value: {1}",
                     matchIPv4.Index,
                     matchIPv4.Value);
 
+                matchedIPv4.Add(matchIPv4.Value.ToString().Replace(@"IPv4 Address. . . . . . . . . . . :", ""));
+
                 matchIPv4 = matchIPv4.NextMatch();
             }
-            
+
+            Console.WriteLine("\n List of found IP addresses: \n");
+
+            matchedIP.ForEach(s => Console.WriteLine("IP No. " + (List.IndexOf(s) + 1) + " " + s));
+
+            Console.WriteLine("\n List of found IPv4 addresses: \n");
+
+            matchedIPv4.ForEach(s => Console.WriteLine("IPv4 No. " + (s.IndexOf(s) + 1) + " " + s ));
+
             Console.ReadKey();
         }
         // 4.4. Start Windows Media Player with music file longer than 10 sec
