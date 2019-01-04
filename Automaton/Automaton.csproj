@@ -57,6 +57,7 @@
     <Compile Include="feature-ex-3\CollectionToLine.cs" />
     <Compile Include="feature-ex-3\FileProcessor.cs" />
     <Compile Include="feature-ex-4\ProcessOutputGenerator.cs" />
+    <Compile Include="feature-ex-5\ExtendThis.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
