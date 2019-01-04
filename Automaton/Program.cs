@@ -206,7 +206,26 @@ namespace Automaton
                 return player;
             }
 
-            PlayAndStopMusic("wmplayer.exe", @"D:\Nuta\pink-floyd-shine-on-you.mp3", 10);
+            //PlayAndStopMusic("wmplayer.exe", @"D:\Nuta\pink-floyd-shine-on-you.mp3", 610);
+
+            // feature-ex-5 - others
+            Console.WriteLine("\nfeature-ex-5 - others\n");
+
+            //5.1.Sprawdź co oferuje wbudowana klasa Environment
+            //5.2.Wypisz na ekranie wersję OS, nazwę komputera, nazwę użytkownika i informację czy system jest 64 bitowy.
+            Console.WriteLine("5.2. Environment details: \n");
+
+            Console.WriteLine("OS version: " + Environment.OSVersion.ToString());
+            Console.WriteLine("Device name : " + Environment.MachineName.ToString());
+            Console.WriteLine("User Name: " + Environment.UserName.ToString());
+            Console.WriteLine("64bit OS: " + Environment.Is64BitOperatingSystem.ToString());
+            Console.ReadKey(); 
+
+            //5.3.Napisz metody rozszerzające klasę string(extension method):
+            //    - metoda która usuwa spacje ze stringa
+            //    - metoda, która zwraca true lub false jeżeli string jest nullem albo jest pusty
+            //    - metoda, która zamienia taby na spacje
+            //5.4.Sprawdź co oferuje Action i Func w C#, napisz ktrótką metodę, która przyjmuje inną metodę jako parametr, skorzystaj z wyrażeń lambda.
         }
     }
 }
