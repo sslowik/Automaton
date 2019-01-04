@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using Automaton.feature_ex_2;
 using Automaton.feature_ex_3;
 using Automaton.feature_ex_4;
+using Automaton.feature_ex_5;
 
 namespace Automaton
 {
