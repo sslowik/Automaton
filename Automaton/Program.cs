@@ -240,7 +240,7 @@ namespace Automaton
             myString = null;
 
             Console.WriteLine();
-            Console.WriteLine(ExtendThis.StringEmpty(myString));
+            Console.WriteLine(myString.StringEmpty());
             
             Console.ReadKey();
 
