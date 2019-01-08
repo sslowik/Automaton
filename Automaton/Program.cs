@@ -152,7 +152,7 @@ namespace Automaton
             Regex regExIPv4 = new Regex(patternIPv4);
             Match matchIPv4 = regExIPv4.Match(thisProcessOutput);
             List<string> matchedIPv4 = new List<string>();
-            
+
             while (matchIPv4.Success)
             {
                 Console.WriteLine("IPv4 Address found at {0} with " +
@@ -171,7 +171,7 @@ namespace Automaton
 
             Console.WriteLine("\n List of found IPv4 addresses: \n");
 
-            matchedIPv4.ForEach((s) => Console.WriteLine("IPv4 No. " + (matchedIPv4.IndexOf(s) + 1) + ": " + s ));
+            matchedIPv4.ForEach((s) => Console.WriteLine("IPv4 No. " + (matchedIPv4.IndexOf(s) + 1) + ": " + s));
 
             Console.ReadKey();
 
@@ -180,7 +180,7 @@ namespace Automaton
 
             //Process.Start("wmplayer.exe", "\"D:\\Nuta\\pink-floyd-shine-on-you.mp3\"");
 
-            Process PlayMusic(string playerName, string playFile) 
+            Process PlayMusic(string playerName, string playFile)
             {
                 Process player = new Process();
                 player.StartInfo.FileName = playerName;
@@ -199,7 +199,7 @@ namespace Automaton
                 Process player = new Process();
                 player.StartInfo.FileName = playerName;
                 player.StartInfo.Arguments = playFile;
-                player.StartInfo.WindowStyle = ProcessWindowStyle.Maximized; 
+                player.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
                 player.Start();
                 var stopPlayback = player.WaitForExit(closeInSeconds * 1000);
                 if (stopPlayback.Equals(false)) player.CloseMainWindow();
@@ -224,14 +224,14 @@ namespace Automaton
             //5.3.Napisz metody rozszerzające klasę string(extension method):
 
             var myString = "a   b\tc\td e   \vf";
-            
+
             //    - metoda która usuwa spacje ze stringa
 
             Console.WriteLine("\n" + myString);
             Console.WriteLine(ExtendThis.RemoveWhiteSpaces(myString));
 
             //    - metoda, która zamienia taby na spacje
-            
+
             Console.WriteLine("\n" + myString);
             Console.WriteLine(ExtendThis.ReplaceTabsWithWhitespaces(myString));
 
@@ -241,10 +241,45 @@ namespace Automaton
 
             Console.WriteLine();
             Console.WriteLine(ExtendThis.StringEmpty(myString));
-            
+
             Console.ReadKey();
 
             //5.4.Sprawdź co oferuje Action i Func w C#, napisz ktrótką metodę, która przyjmuje inną metodę jako parametr, skorzystaj z wyrażeń lambda.
+
+            //Function
+
+            var myList = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+
+            //{
+
+            //    Func<int, bool> isOdd = delegate(int i) { return i % 2 != 0; };
+            //    foreach (var x in myList.TakeWhile(isOdd))
+            //    {
+            //        Console.WriteLine(x);
+            //    }
+            //}
+
+            //same with lambda expression and using function: 
+
+            {
+                foreach (var x in myList.TakeWhile((i) => i % 2 != 0))
+                {
+                    PrintToConsole(x);
+                }
+
+            }
+
+            Console.ReadKey(); 
+
+        }
+        private static void PrintToConsole(string s)
+        {
+            Console.WriteLine(s);
+        }
+
+        private static void PrintToConsole(int i)
+        {
+            Console.WriteLine(i.ToString());
         }
     }
 }
