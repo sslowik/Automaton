@@ -8,10 +8,13 @@ using System.Media;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Forms;
 using Automaton.feature_ex_2;
 using Automaton.feature_ex_3;
 using Automaton.feature_ex_4;
 using Automaton.feature_ex_5;
+using MessageBox = Xceed.Wpf.Toolkit.MessageBox;
 
 namespace Automaton
 {
@@ -261,17 +264,37 @@ namespace Automaton
 
             //same with lambda expression and using function: 
 
-            {
-                foreach (var x in myList.TakeWhile((i) => i % 2 != 0))
-                {
-                    PrintToConsole(x);
-                }
+            //{
+            //    foreach (var x in myList.TakeWhile( i => i % 2 == 0))
+            //    {
+            //        PrintToConsole(x);
+            //    }
 
+            //}
+
+            //Console.ReadKey();
+
+
+            {
+                Action<string> messageTarget;
+
+                if (Environment.GetCommandLineArgs().Length > 1)
+                    messageTarget = s => ShowWindowsMessage(s);
+                else
+                    messageTarget = s => PrintToConsole(s);
+
+                messageTarget("\nHello, World!");
+                Console.ReadKey();
             }
 
-            Console.ReadKey(); 
-
         }
+
+
+        private static void ShowWindowsMessage(string message)
+        {
+            MessageBox.Show(message);
+        }
+
         private static void PrintToConsole(string s)
         {
             Console.WriteLine(s);
