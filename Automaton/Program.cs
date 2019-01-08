@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -243,7 +243,8 @@ namespace Automaton
             myString = null;
 
             Console.WriteLine();
-            Console.WriteLine(ExtendThis.StringEmpty(myString));
+
+            Console.WriteLine(myString.StringEmpty());
 
             Console.ReadKey();
 
